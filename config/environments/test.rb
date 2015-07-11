@@ -1,6 +1,4 @@
 Rails.application.configure do
-  Paperclip::Attachment.default_options[:path] =
-    "#{Rails.root}/spec/test_files/:class/:id_partition/:style.:extension"
   config.cache_classes = true
 
   config.eager_load = false

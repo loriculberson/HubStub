@@ -19,7 +19,7 @@
     { label: "Category" }
     ) %>
   <%= f.fields_for :images do |i| %>
-    <%= i.file_field :image %>
+    <%= i.text_field :image, label: "Image (paste image url below)" %>
     <%= i.text_field :img_title, label: "Image Title" %>
     <%= i.text_field :img_description, label: "Image Description" %>
   <% end %>

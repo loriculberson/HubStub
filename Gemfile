@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem "paperclip", "~> 4.2"
 gem 'faker'
 gem 'rails', '4.2.0'
 gem 'pg'

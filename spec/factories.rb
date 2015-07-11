@@ -38,7 +38,6 @@ FactoryGirl.define do
   factory :image do
     title
     description "Red Rocks"
-    img File.new("#{Rails.root}/app/assets/images/red-rocks.jpg")
   end
 
   factory :item do
