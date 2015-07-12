@@ -29,22 +29,22 @@ class Seed
     @images = Image.create([
       { title: "Blazers vs. Nuggets",
         description: "Lillard vs Nuggets",
-        img: File.new("#{Rails.root}/app/assets/images/blazers-nuggets.jpg") },
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg" },
       { title: "Hannibal Burress",
         description: "Hannibal Burress Headshot",
-        img: File.new("#{Rails.root}/app/assets/images/hannibal-buress.jpg") },
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg" },
       { title: "Pitbull and Enrique Iglesias",
         description: "Pitbull and Enrique Being Bosses",
-        img: File.new("#{Rails.root}/app/assets/images/pitbull-enrique.jpg") },
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg" },
       { title: "ABBA!!!",
         description: "The whole gang",
-        img: File.new("#{Rails.root}/app/assets/images/abba.jpg") },
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg"},
       { title: "Portland Timbers",
         description: "The Portland Timbers",
-        img: File.new("#{Rails.root}/app/assets/images/timbers.jpg") },
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg" },
       { title: "Missing",
         description: "crowd",
-        img: File.new("#{Rails.root}/app/assets/images/crowd.jpg") }
+        photo: "https://literaryyard.files.wordpress.com/2015/01/crowd.jpg"}
     ])
   end
 
@@ -386,8 +386,8 @@ class Seed
         delivery_method: "electronic",
         event_id: event.id,
         user_id: user.id,
-        ticket: File.new("#{Rails.root}/app/assets/images/fake_ticket.pdf"
-        ))
+        ticket: "http://www.urartuuniversity.com/content_images/pdf-sample.pdf"
+        )
         puts "Item #{i}: #{item.id} created!"
     end
 
