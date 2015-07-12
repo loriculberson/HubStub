@@ -20,4 +20,5 @@ RSpec.configure do |config|
   config.after(:suite) do
     FileUtils.rm_rf(Dir["#{Rails.root}/spec/test_files/"])
   end
+  config.backtrace_exclusion_patterns << %r{/gems/}
 end
