@@ -48,7 +48,8 @@ desc "Populate the database"
       unique_display_name
     end
 
-    User.populate 200 do |user| 
+    User.populate 2
+    0 do |user| 
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
       user.email = unique_email
       user.password_digest = "password"
@@ -96,4 +97,8 @@ desc "Populate the database"
     end
     puts "Order total: #{Order.count}"
   end
+
+
+  task :all => [ :clear_database, :populate_events, :populate_users, :populate_items, :populate_orders  ]
+  Rake::Task["all"].invoke
 
