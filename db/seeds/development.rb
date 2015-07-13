@@ -37,18 +37,20 @@ class Seed
 
       Venue.create(
         name: Faker::Company.name + "#{venue_type}", 
-        location: Faker::Address.city + ", " + Faker::Address.state,
+        location: Faker::Address.city + ", " + Faker::Address.state
+      )
     end
     p "Venues created"
   end
 
   def generate_images
     300.times do 
-      item = Item.create(
-            title: Faker::Lorem.sentence
-            description: item.title 
+      Image.create(
+        title: Faker::Lorem.sentence,
+        description: Faker::Lorem.sentence 
       )
     end
+    p "Images created"
   end
 
 
