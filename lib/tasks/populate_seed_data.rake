@@ -1,4 +1,5 @@
 require 'populator'
+require 'bcrypt'
 require_relative '../../db/seeds/development'
 
 desc "Populate the database"
@@ -14,31 +15,6 @@ desc "Populate the database"
     Seed.call
   end
 
-  task :populate_venues do
-    venue_descriptors =   ["Park", "Arena", "Stadium", "Hall", "Ampitheatre",
-                            "School", "Opera House", "Center", "Pavilion", "Field"]
-
-    100.times do |i|
-    venue_type = venue_descriptors[i % venue_descriptors.length]
-
-    Venue.populate(
-      name: Faker::Company.name + "#{venue_type}", 
-      location: Faker::Address.city + ", " + Faker::Address.state
-    )
-    end
-  p "Venues created"
-  end
-
-  task :populate_images do
-    300.times do 
-        Image.populate(
-          title: Faker::Lorem.sentence,
-          description: Faker::Lorem.sentence 
-        )
-      end
-      p "Images created"
-    end
-
   task :populate_events  do  
 
     puts "Creating Events...."
@@ -46,7 +22,7 @@ desc "Populate the database"
 
     @categories.each do |category| 
       
-      Event.populate 5..20 do |event| 
+      Event.populate 250..1000 do |event| 
         event.title    = Faker::Company.catch_phrase
         event.date    =  Faker::Time.between(2.days.from_now, 300.days.from_now)
         event.approved = true
@@ -79,10 +55,10 @@ desc "Populate the database"
       unique_display_name
     end
 
-    User.populate 20 do |user| 
+    User.populate 100000 do |user| 
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
       user.email = unique_email
-      user.password_digest = "password"
+      user.password_digest = BCrypt::Password.create("password")
       user.display_name = unique_display_name
       user.slug = user.display_name.parameterize 
       user.street_1 = Faker::Address.street_address
@@ -100,7 +76,7 @@ desc "Populate the database"
     delivery_method = ["electronic", "physical"] 
     sold = [true, false]
 
-    Item.populate 10 do |item|
+    Item.populate 250000 do |item|
       item.unit_price = Faker::Commerce.price + 1
       item.section    = Faker::Number.between(100, 900)
       item.row        = Faker::Number.between(1, 30)
@@ -119,7 +95,7 @@ desc "Populate the database"
 
     status = ["ordered", "paid", "completed", "cancelled"]
 
-    Order.populate 10 do |order| 
+    Order.populate 25000 do |order| 
         user = User.limit(1).order("RANDOM()")[0]
         order.user_id = user.id
         order.status = status.sample

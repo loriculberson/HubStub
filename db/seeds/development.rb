@@ -10,6 +10,7 @@ class Seed
                         "School", "Opera House", "Center", "Pavilion", "Field"]
 
   def generate_categories
+    puts "Creating Categories...."
     Category.create([
       { name: "Sports" },
       { name: "Music" },
@@ -28,29 +29,31 @@ class Seed
       { name: "Livestock & Rodeo" }
     ])
 
-    p "Categories created"
+    p "Category total: #{Category.count}"
   end
 
   def generate_venues
-   100.times do |i|
+    puts "Creating Venues....."
+   250.times do |i|
       venue_type = VENUE_DESCRIPTORS[i % VENUE_DESCRIPTORS.length]
 
       Venue.create(
-        name: Faker::Company.name + "#{venue_type}", 
+        name: Faker::Company.name + " #{venue_type}", 
         location: Faker::Address.city + ", " + Faker::Address.state
       )
     end
-    p "Venues created"
+    p "Venue total: #{Venue.count}"
   end
 
   def generate_images
+    puts "Creating Images...."
     300.times do 
       Image.create(
-        title: Faker::Lorem.sentence,
+        title: Faker::Commerce.product_name,
         description: Faker::Lorem.sentence 
       )
     end
-    p "Images created"
+    p "Image total: #{Image.count}"
   end
 
 
