@@ -1,14 +1,45 @@
 require 'populator'
+require_relative '../../db/seeds/development'
 
 desc "Populate the database"
 
-  task :clear_database => :environment do  
-    puts "Clearing the datbase....."
-
-     [Category, Image, Venue, Item, User, Order, Event ].each(&:delete_all)
+  task :clear_database  do
+    puts "Clearing the database....."
+    system("rake db:drop")
+    system("rake db:create")
+    system("rake db:migrate")
   end
 
-  task :populate_events => :environment do  
+  task :seed_categories_venues_images do
+    Seed.call
+  end
+
+  task :populate_venues do
+    venue_descriptors =   ["Park", "Arena", "Stadium", "Hall", "Ampitheatre",
+                            "School", "Opera House", "Center", "Pavilion", "Field"]
+
+    100.times do |i|
+    venue_type = venue_descriptors[i % venue_descriptors.length]
+
+    Venue.populate(
+      name: Faker::Company.name + "#{venue_type}", 
+      location: Faker::Address.city + ", " + Faker::Address.state
+    )
+    end
+  p "Venues created"
+  end
+
+  task :populate_images do
+    300.times do 
+        Image.populate(
+          title: Faker::Lorem.sentence,
+          description: Faker::Lorem.sentence 
+        )
+      end
+      p "Images created"
+    end
+
+  task :populate_events  do  
 
     puts "Creating Events...."
     @categories = Category.all
@@ -29,7 +60,7 @@ desc "Populate the database"
     puts "Event total: #{Event.count}"
   end
 
-  task :populate_users => :environment do  
+  task :populate_users  do  
     puts "Creating Users..."
 
     def unique_email
@@ -48,8 +79,7 @@ desc "Populate the database"
       unique_display_name
     end
 
-    User.populate 2
-    0 do |user| 
+    User.populate 20 do |user| 
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
       user.email = unique_email
       user.password_digest = "password"
@@ -64,7 +94,7 @@ desc "Populate the database"
       puts "User total: #{User.count}"
   end
 
-  task :populate_items => :environment do
+  task :populate_items  do
     puts "Creaing Items...."
 
     delivery_method = ["electronic", "physical"] 
@@ -84,7 +114,7 @@ desc "Populate the database"
     puts "Item total: #{Item.count}"
   end
 
-  task :populate_orders=> :environment do 
+  task :populate_orders do 
     puts "Creating Orders...."
 
     status = ["ordered", "paid", "completed", "cancelled"]
@@ -98,7 +128,7 @@ desc "Populate the database"
     puts "Order total: #{Order.count}"
   end
 
-
-  task :all => [ :clear_database, :populate_events, :populate_users, :populate_items, :populate_orders  ]
-  Rake::Task["all"].invoke
+  task :all => [  :environment, :clear_database, :seed_categories_venues_images, :populate_events, 
+                  :populate_users, :populate_items, :populate_orders 
+                ]
 

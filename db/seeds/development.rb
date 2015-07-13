@@ -59,5 +59,5 @@ class Seed
   end
 end
 
-Seed.call
+
 
