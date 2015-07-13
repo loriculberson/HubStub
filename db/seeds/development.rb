@@ -4,6 +4,7 @@ class Seed
     generate_categories
     generate_venues
     generate_images
+    generate_users_a
   end
 
   VENUE_DESCRIPTORS =   ["Park", "Arena", "Stadium", "Hall", "Ampitheatre",
@@ -34,7 +35,7 @@ class Seed
 
   def generate_venues
     puts "Creating Venues....."
-   250.times do |i|
+   100.times do |i|
       venue_type = VENUE_DESCRIPTORS[i % VENUE_DESCRIPTORS.length]
 
       Venue.create(
@@ -47,13 +48,76 @@ class Seed
 
   def generate_images
     puts "Creating Images...."
-    300.times do 
+    100.times do 
       Image.create(
         title: Faker::Commerce.product_name,
         description: Faker::Lorem.sentence 
       )
     end
     p "Image total: #{Image.count}"
+  end
+
+  def generate_users_a
+    @users = User.create!([
+       { full_name:            "Lori Smile",
+        email:                 "lori@example.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "123 Main St.",
+        city:                  "Denver",
+        state:                 "CO",
+        zipcode:               80203,
+        display_name:          "lori"},
+      { full_name:             "Rachel Warbelow",
+        email:                 "demo+rachel@example.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "1111 Downing St.",
+        street_2:              "Apt. 101",
+        city:                  "Denver",
+        state:                 "CO",
+        zipcode:               80203,
+        display_name:          "rwarbelow"},
+      { full_name:             "Jeff Casimir",
+        email:                 "demo+jeff@example.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "1111 Downing St.",
+        street_2:              "Apt. 101",
+        city:                  "Denver",
+        state:                 "CO",
+        zipcode:               80203,
+        display_name:          "j3"},
+      { full_name:             "Jorge Tellez",
+        email:                 "demo+jorge@example.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "1111 Downing St.",
+        street_2:              "Apt. 101",
+        city:                  "Denver",
+        state:                 "CO",
+        zipcode:               80203,
+        display_name:          "novohispano"},
+      { full_name:             "Bill Gates",
+        email:                 "bill@gates.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "1111 Downing St.",
+        city:                  "Seattle",
+        state:                 "WA",
+        zipcode:               90329,
+        display_name:          "thebillgates"},
+      { full_name:             "Taylor Swift",
+        email:                 "taytay@swift.com",
+        password:              "password",
+        password_confirmation: "password",
+        street_1:              "1111 Downing St.",
+        street_2:              "Apt. 101",
+        city:                  "Denver",
+        state:                 "CO",
+        zipcode:               80203,
+        display_name:          "taylorswift13"},
+    ])
   end
 
 
