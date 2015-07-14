@@ -1,4 +1,4 @@
-class Item < ActiveRecord::Base
+  class Item < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   DELIVERY_METHODS = %w(electronic physical)
 

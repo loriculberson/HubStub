@@ -3,4 +3,5 @@ class Category < ActiveRecord::Base
 
   has_many :items, through: :events
   has_many :events
+
 end
