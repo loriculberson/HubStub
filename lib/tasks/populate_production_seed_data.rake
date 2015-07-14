@@ -127,7 +127,8 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :order_item_primary :environment => do
+  task :order_item_primary => :environment do
+    
     counter = 0
     puts "Creating OrderItems for Primary Users..."
     OrderItem.populate 500 do |orderitem|
