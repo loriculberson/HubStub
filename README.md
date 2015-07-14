@@ -30,7 +30,8 @@ To get this to run locally, you need to run the following:
 * `bundle install`
 * `git push heroku master`
 * `heroku pg:reset database`
-* `heroku run rake db:schema:load db:seed`
+* `heroku run rake db:schema:load`
+* 'heroku run rake all'
 * `heroku open` and look at all the glorious menu/item images
 
 #### Contributor Log

@@ -7,7 +7,7 @@ desc "Populate the Production Database"
     Seed.call
   end
 
-  task :populate_events  do  
+  task :populate_events do  
 
     puts "Creating Events...."
 
