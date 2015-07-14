@@ -1,26 +1,21 @@
 require 'populator'
-require 'bcrypt'
+# require 'bcrypt'
 require_relative '../../db/seeds/development'
 
 desc "Populate the database"
 
-  task :clear_database  do
+  task :clear_database_dev  do
     puts "Clearing the database....."
     system("rake db:drop db:create db:migrate")
-    # system("rake db:create")
-    # system("rake db:migrate")
-
-    # [Category, Venue, Image, User, Item, Event, Order].each(&:delete_all)
   end
 
-  task :seed_categories_venues_images_users do
+  task :seed_categories_venues_images_users_dev do
     Seed.call
   end
 
-  task :populate_events  do  
+  task :populate_events_dev  do  
 
     puts "Creating Events...."
-    # @categories = Category.all
 
     Category.all.each do |category| 
       
@@ -38,16 +33,16 @@ desc "Populate the database"
     puts "Event total: #{Event.count}"
   end
 
-  task :populate_users_b  do  
+  task :populate_users_dev => :environment do  
     puts "Creating Users..."
 
     count = 6
-    User.populate 100000 do |user| 
+    User.populate 50000 do |user| 
       
       puts "User count: #{count}"
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
       user.email = Faker::Internet.email
-      user.password_digest = "password"
+      user.password_digest = "$2a$04$TCIUgh88IS5/CCtieDmTn.DkChX3HJz5rV/s4FfgrLW1p8mCo8lhW"
       user.display_name = Faker::Name.first_name
       user.slug = user.display_name.parameterize 
       user.street_1 = Faker::Address.street_address
@@ -60,11 +55,11 @@ desc "Populate the database"
       puts "User total: '#{User.count}'"
   end
 
-  task :populate_items  do
+  task :populate_items_dev  do
     puts "Creaing Items...."
 
     delivery_method = ["electronic", "physical"] 
-    sold = [true, false]
+    boolean_val = [true, false]
 
     count_i = 0
     Item.populate 250000 do |item|
@@ -76,28 +71,44 @@ desc "Populate the database"
       item.user_id    = User.limit(1).order("RANDOM()").pluck(:id)[0]
       item.event_id   = Event.limit(1).order("RANDOM()").pluck(:id)[0]
       item.delivery_method = delivery_method.sample
-      item.sold       = sold.sample
+      item.sold       = boolean_val.sample
+      item.pending    = boolean_val.sample
       count_i += 1
     end
 
     puts "Item total: #{Item.count}"
   end
 
-  task :populate_orders do 
+  task :populate_orders_dev => :environment do
+     
     puts "Creating Orders...."
 
     status = ["ordered", "paid", "completed", "cancelled"]
-
-    Order.populate 25000 do |order| 
-        user = User.limit(1).order("RANDOM()")[0]
-        order.user_id = user.id
-        order.status = status.sample
-        order.total_price = Faker::Commerce.price + 1
+    user_choices = [1,2,3,4,5,6]
+    Order.populate 500 do |order|
+      order.user_id = user_choices.sample
+      order.status = status.sample
+      order.total_price = (Faker::Commerce.price * 1000) + 1
     end
     puts "Order total: #{Order.count}"
   end
 
-  task :all_dev => [  :environment, :clear_database, :seed_categories_venues_images_users, :populate_events, 
-                  :populate_users_b, :populate_items, :populate_orders 
-                ]
+  task :order_item_dev => :environment do
+    counter = 0
+    puts "Creating OrderItems..."
+    OrderItem.populate 500 do |orderitem|
+      puts "OrderItem count: #{counter}"
+      orderitem.item_id = rand(1..Item.count)
+      user_ids = User.limit(6).pluck(:id)
+      orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
+      
+      counter +=1
+    end
+    puts "OrderItem total: #{OrderItem.count}"
+  end
+
+  task :all_dev => [  :environment, :clear_database, :seed_categories_venues_images_users_dev, :populate_events_dev, 
+                      :populate_users_dev, :populate_items_dev, :populate_orders_dev, :order_item_dev 
+                    ]
+
 

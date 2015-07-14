@@ -6,7 +6,6 @@ desc "Populate the Production Database"
   task :clear_database  do
     puts "Clearing the production database....."
     system("rake db:drop db:create db:migrate")
-
   end
 
   task :seed_categories_venues_images_users do
@@ -16,7 +15,6 @@ desc "Populate the Production Database"
   task :populate_events  do  
 
     puts "Creating Events...."
-    # @categories = Category.all
 
     Category.all.each do |category| 
       
@@ -34,7 +32,7 @@ desc "Populate the Production Database"
     puts "Event total: #{Event.count}"
   end
 
-  task :populate_users_b  do  
+  task :populate_users  do  
     puts "Creating Users..."
 
     count = 6
@@ -43,7 +41,7 @@ desc "Populate the Production Database"
       puts "User count: #{count}"
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
       user.email = Faker::Internet.email
-      user.password_digest = "password"
+      user.password_digest = "$2a$04$TCIUgh88IS5/CCtieDmTn.DkChX3HJz5rV/s4FfgrLW1p8mCo8lhW"
       user.display_name = Faker::Name.first_name
       user.slug = user.display_name.parameterize 
       user.street_1 = Faker::Address.street_address
@@ -57,16 +55,15 @@ desc "Populate the Production Database"
   end
 
   
-#Create items with a user id 1-6
   task :populate_items_for_primary_users  do
     puts "Creaing Items for Primary Users...."
 
     delivery_method = ["electronic", "physical"] 
-    sold = [true, false]
+    boolean_val = [true, false]
 
     count_i = 0
     user_ids = [1,2,3,4,5,6]
-    Item.populate 600 do |item|
+    Item.populate 1000 do |item|
       puts "Item count: #{count_i}"
       item.unit_price = Faker::Commerce.price + 1
       item.section    = Faker::Number.between(100, 900)
@@ -75,7 +72,8 @@ desc "Populate the Production Database"
       item.user_id    = user_ids.sample
       item.event_id   = Event.limit(1).order("RANDOM()").pluck(:id)[0]
       item.delivery_method = delivery_method.sample
-      item.sold       = sold.sample
+      item.sold       = boolean_val.sample
+      item.pending    = boolean_val.sample
       count_i += 1
     end
 
@@ -86,10 +84,10 @@ desc "Populate the Production Database"
     puts "Creaing Items for Seeded Users...."
 
     delivery_method = ["electronic", "physical"] 
-    sold = [true, false]
+    boolean_val = [true, false]
 
     count_i = 0
-    Item.populate 499,400 do |item|
+    Item.populate 499,000 do |item|
       puts "Item count: #{count_i}"
       item.unit_price = Faker::Commerce.price + 1
       item.section    = Faker::Number.between(100, 900)
@@ -98,7 +96,8 @@ desc "Populate the Production Database"
       item.user_id    = User.limit(1).order("RANDOM()").pluck(:id)[0]
       item.event_id   = Event.limit(1).order("RANDOM()").pluck(:id)[0]
       item.delivery_method = delivery_method.sample
-      item.sold       = sold.sample
+      item.sold       = boolean_val.sample
+      item.pending    = boolean_val.sample
       count_i += 1
     end
 
@@ -112,10 +111,9 @@ desc "Populate the Production Database"
     user_order_ids = [1,2,3,4,5,6]
 
     Order.populate 500 do |order| 
-        user = User.limit(1).order("RANDOM()")[0]
         order.user_id = user_order_ids.sample
         order.status = status.sample
-        order.total_price = Faker::Commerce.price + 1
+        order.total_price = (Faker::Commerce.price * 1000) + 1
     end
     puts "Order total for Primary Users: #{Order.count}"
   end
@@ -134,8 +132,38 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
+  task :order_item_primary do
+    counter = 0
+    puts "Creating OrderItems for Primary Users..."
+    OrderItem.populate 500 do |orderitem|
+      puts "OrderItem count: #{counter}"
+      orderitem.item_id = rand(1..Item.count)
+      user_ids = User.limit(6).pluck(:id)
+      orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
+      
+      counter +=1
+    end
+    puts "OrderItem total for Primary Users: #{OrderItem.count}"
+  end
+
+  task :order_item do
+    counter = 0
+    puts "Creating OrderItems..."
+    OrderItem.populate 20000 do |orderitem|
+      puts "OrderItem count: #{counter}"
+      orderitem.item_id = rand(1..Item.count)
+      user_ids = rand(1..User.count)
+      orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
+      
+      counter +=1
+    end
+    puts "OrderItem total: #{OrderItem.count}"
+  end
+
+
+
   task :all => [  :environment, :clear_database, :seed_categories_venues_images_users, :populate_events, 
-                  :populate_users_b, :populate_items_for_primary_users, :populate_items, 
-                  :populate_orders_for_primary_users, :populate_orders 
+                  :populate_users, :populate_items_for_primary_users, :populate_items, 
+                  :populate_orders_for_primary_users, :populate_orders, :order_item_primary, :order_item 
                 ]
 

@@ -7,7 +7,7 @@ class Seed
     generate_users_a
   end
 
-  VENUE_DESCRIPTORS =   ["Park", "Arena", "Stadium", "Hall", "Ampitheatre",
+  VENUE_DESCRIPTORS_DEV =   ["Park", "Arena", "Stadium", "Hall", "Ampitheatre",
                         "School", "Opera House", "Center", "Pavilion", "Field"]
 
   def generate_categories
@@ -36,7 +36,7 @@ class Seed
   def generate_venues
     puts "Creating Venues....."
    100.times do |i|
-      venue_type = VENUE_DESCRIPTORS[i % VENUE_DESCRIPTORS.length]
+      venue_type = VENUE_DESCRIPTORS_DEV[i % VENUE_DESCRIPTORS_DEV.length]
 
       Venue.create(
         name: Faker::Company.name + " #{venue_type}", 
