@@ -19,9 +19,8 @@
   <%= nav_bar static: :top, responsive: true do %>
     <% if current_user && current_user.admin? %>
       <%= menu_group do %>
-
-      <% Category.sort_all.each do |category| %>
-      <%= menu_item "#{category.name}", tickets_path(category: category.name) %>
+      <%= render partial %>
+ 
         <% end %>
         <%= menu_item "Dashboard", admin_path %>
         <%= drop_down "Tickets" do %>
