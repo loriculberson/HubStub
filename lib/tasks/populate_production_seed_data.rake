@@ -127,8 +127,8 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :order_item_primary => :environment do
-    
+  task :order_item_primary do
+
     counter = 0
     puts "Creating OrderItems for Primary Users..."
     OrderItem.populate 500 do |orderitem|
@@ -158,8 +158,9 @@ desc "Populate the Production Database"
 
 
 
-  task :all => [  :environment, :clear_database, :seed_categories_venues_images_users, :populate_events, 
+  task :all => [  :environment, :seed_categories_venues_images_users, :populate_events, 
                   :populate_users, :populate_items_for_primary_users, :populate_items, 
-                  :populate_orders_for_primary_users, :populate_orders, :order_item_primary, :order_item 
+                  :populate_orders_for_primary_users, :populate_orders, :order_item_primary, 
+                  :order_item 
                 ]
 

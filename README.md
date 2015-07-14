@@ -29,7 +29,7 @@ To get this to run locally, you need to run the following:
 ### Here's what you'll need to do after pulling to get it working on heroku
 * `bundle install`
 * `git push heroku master`
-* `heroku pg:reset`
+* `heroku pg:reset database`
 * `heroku run rake db:schema:load db:seed`
 * `heroku open` and look at all the glorious menu/item images
 
