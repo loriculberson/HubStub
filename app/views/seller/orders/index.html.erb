@@ -1,21 +1,23 @@
 <div class="seller-page-title">
-  <h1>Orders for <%= @user.full_name%></h1>
+  <h1>Orders for <%=current_user.full_name%></h1>
   <br />
 </div>
 <div class="row seller-events text-center event-page-inner">
   <table class="table table-hover event-tickets">
     <thead>
-      <h4> <%= "No past orders for user: #{@user.display_name}" if @user.orders.empty? %> </h4>
+      <h4> <%= "No past orders for user: #{@user.display_name}" if current_user.orders.empty? %> </h4>
     </thead>
   </table>
 
-<% @user.orders.each do |order| %>
+<%#= @user.orders.each do |order| %>
+<% @orders.each do |order| %>
+<%= will_paginate %>
 <div class="row event-page-ticket-listing event-page-inner">
   <table class="table table-hover event-tickets">
     <thead>
       <tr id="seller-events">
         <th colspan=8 class="vert-align">
-          <p id ="seller-event-title"><%= link_to("Order #{order.id}", seller_order_path(@user.slug, order)) %></p>
+          <!-- <p id ="seller-event-title"><%#= link_to("Order #{order.id}", seller_order_path(@user.slug, order)) %></p> -->
         </th>
       </tr>
       <tr>
