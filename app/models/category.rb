@@ -4,4 +4,8 @@ class Category < ActiveRecord::Base
   has_many :items, through: :events
   has_many :events
 
+  def self.sort_all
+    order(:name)
+  end
+
 end

@@ -22,10 +22,7 @@
         <%= menu_item "Dashboard", admin_path %>
         <%= drop_down "Tickets" do %>
       <%= menu_item "All Tickets", tickets_path %>
-          <%= menu_item "Sports", tickets_path(category: "Sports") %>
-          <%= menu_item "Music", tickets_path(category: "Music") %>
-          <%= menu_item "Theater", tickets_path(category: "Theater") %>
-          <%=  %>
+        <%= render 'shared/categories_drop_down' %>
         <% end %>
       <% end %>
       <%= menu_group do %>
@@ -47,9 +44,7 @@
       <%= menu_group do %>
         <%= drop_down "Buy" do %>
           <%= menu_item "All Tickets", tickets_path %>
-          <%= menu_item "Sports", tickets_path(category: "Sports") %>
-          <%= menu_item "Music", tickets_path(category: "Music") %>
-          <%= menu_item "Theater", tickets_path(category: "Theater") %>
+          <%= render 'shared/categories_drop_down' %>
           <%=  %>
         <% end %>
       <% end %>
