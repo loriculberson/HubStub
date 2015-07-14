@@ -3,11 +3,6 @@ require_relative '../../db/seeds/production'
 
 desc "Populate the Production Database"
 
-  task :clear_database  do
-    puts "Clearing the production database....."
-    system("rake db:drop db:create db:migrate")
-  end
-
   task :seed_categories_venues_images_users do
     Seed.call
   end
