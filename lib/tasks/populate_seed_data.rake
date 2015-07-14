@@ -7,10 +7,6 @@ desc "Populate the database"
   task :clear_database_dev  do
     puts "Clearing the database....."
     system("rake db:drop db:create db:migrate")
-    # system("rake db:create")
-    # system("rake db:migrate")
-
-    # [Category, Venue, Image, User, Item, Event, Order].each(&:delete_all)
   end
 
   task :seed_categories_venues_images_users_dev do
@@ -20,7 +16,6 @@ desc "Populate the database"
   task :populate_events_dev  do  
 
     puts "Creating Events...."
-    # @categories = Category.all
 
     Category.all.each do |category| 
       
@@ -38,11 +33,11 @@ desc "Populate the database"
     puts "Event total: #{Event.count}"
   end
 
-  task :populate_users_dev  do  
+  task :populate_users_dev => :environment do  
     puts "Creating Users..."
 
     count = 6
-    User.populate 100000 do |user| 
+    User.populate 50000 do |user| 
       
       puts "User count: #{count}"
       user.full_name = Faker::Name.first_name + " " + Faker::Name.last_name
@@ -93,7 +88,7 @@ desc "Populate the database"
     Order.populate 500 do |order|
       order.user_id = user_choices.sample
       order.status = status.sample
-      order.total_price = (Faker::Commerce.price * 100) + 1
+      order.total_price = (Faker::Commerce.price * 1000) + 1
     end
     puts "Order total: #{Order.count}"
   end
@@ -102,7 +97,7 @@ desc "Populate the database"
     counter = 0
     puts "Creating OrderItems..."
     OrderItem.populate 500 do |orderitem|
-      puts "Item count: #{counter}"
+      puts "OrderItem count: #{counter}"
       orderitem.item_id = rand(1..Item.count)
       user_ids = User.limit(6).pluck(:id)
       orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
