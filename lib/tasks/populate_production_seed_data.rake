@@ -84,11 +84,12 @@ desc "Populate the Production Database"
     boolean_val = [true, false]
 
     count_i = 0
+    users_count     = User.count
+    events_count    = Event.count
+
     Item.populate 499000 do |item|
       puts "Item count: #{count_i}"
 
-      users_count     = User.count
-      events_count    = Event.count
       user_ids = rand(1..users_count)
       
       item.unit_price = Faker::Commerce.price + 1
@@ -106,7 +107,7 @@ desc "Populate the Production Database"
     puts "Items for seeded users total: #{Item.count}"
   end
 
-  task :populate_orders_for_primary_users => :environment do  
+  task :populate_orders_for_primary_users_DONE => :environment do  
     puts "Creating Orders for Primary Users...."
 
     status = ["ordered", "paid", "completed", "cancelled"]
@@ -120,7 +121,7 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :populate_orders => :environment do  
+  task :populate_orders_DONE => :environment do  
     puts "Creating Orders for Seeded Users...."
 
     status_b = ["ordered", "paid", "completed", "cancelled"]
@@ -134,7 +135,7 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :order_item_primary => :environment do  
+  task :order_item_primary_DONE => :environment do  
 
     counter = 0
     puts "Creating OrderItems for Primary Users..."
@@ -152,7 +153,7 @@ desc "Populate the Production Database"
     puts "OrderItem total for Primary Users: #{OrderItem.count}"
   end
 
-  task :order_item => :environment do  
+  task :order_item_DONE => :environment do  
     counter = 0
     puts "Creating OrderItems..."
     OrderItem.populate 20000 do |orderitem|

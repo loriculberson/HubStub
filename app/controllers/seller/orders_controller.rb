@@ -1,7 +1,9 @@
 class Seller::OrdersController < ApplicationController
+
   def index
     if current_user.slug == params[:slug]
       @user = User.find_by(slug: params[:slug])
+      # @orders = current_user.orders.paginate(:page => params[:page], :per_page => 8)
     else
       redirect_to root_path
     end
