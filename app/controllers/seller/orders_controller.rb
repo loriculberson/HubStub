@@ -1,4 +1,5 @@
 class Seller::OrdersController < ApplicationController
+
   def index
     if current_user.slug == params[:slug]
       @user = User.find_by(slug: params[:slug])

@@ -1,6 +1,6 @@
 <h3>Your Past Orders</h3>
-<div class="table-responsive"><%= will_paginate%>
-  <table class="table table-striped">
+<div class="table-responsive">
+  <table class="table table-striped orders">
     <thead>
       <tr>
         <th>Date</th>
@@ -13,6 +13,7 @@
       <% if @orders.nil? || @orders.count == 0 %>
         <div>You have no prior orders</div>
       <% else %>
+
         <% @orders.each do |order| %>
         <tr>
           <td><%= order.formatted_created_at %></td>
