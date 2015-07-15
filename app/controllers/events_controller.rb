@@ -1,8 +1,9 @@
 class EventsController < ApplicationController
   def index
-    @items = Item.active.not_in_cart(session[:cart])
-    @events = @items.map(&:event).uniq
-    @events = @events.select { |event| event.category.name == params[:category] } if params[:category]
+    # @items = Item.active.not_in_cart(session[:cart])
+    # @events = @items.map(&:event).uniq
+    # @events = @events.select { |event| event.category.name == params[:category] } if params[:category]
+    @events = Event.paginate(page: params[:page], per_page: 6)
   end
 
   def show
@@ -20,3 +21,5 @@ class EventsController < ApplicationController
     end
   end
 end
+
+

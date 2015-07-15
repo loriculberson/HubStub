@@ -1,5 +1,5 @@
 $(document).ready( function () {
-  var table = $('.orders').DataTable( {
+  var table = $('.datatable').DataTable( {
 
   });
 
