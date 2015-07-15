@@ -58,6 +58,8 @@ desc "Populate the Production Database"
 
     count_i = 0
     user_ids = [1,2,3,4,5,6]
+    events_count    = Event.count
+
     Item.populate 1000 do |item|
       puts "Item count: #{count_i}"
       item.unit_price = Faker::Commerce.price + 1
@@ -65,7 +67,7 @@ desc "Populate the Production Database"
       item.row        = Faker::Number.between(1, 30)
       item.seat       = Faker::Number.between(1, 25)
       item.user_id    = user_ids.sample
-      item.event_id   = Event.limit(1).order("RANDOM()").pluck(:id)[0]
+      item.event_id   = rand(1..events_count)
       item.delivery_method = delivery_method.sample
       item.sold       = boolean_val.sample
       item.pending    = boolean_val.sample
@@ -84,12 +86,17 @@ desc "Populate the Production Database"
     count_i = 0
     Item.populate 499000 do |item|
       puts "Item count: #{count_i}"
+
+      users_count     = User.count
+      events_count    = Event.count
+      user_ids = rand(1..users_count)
+      
       item.unit_price = Faker::Commerce.price + 1
       item.section    = Faker::Number.between(100, 900)
       item.row        = Faker::Number.between(1, 30)
       item.seat       = Faker::Number.between(1, 25)
-      item.user_id    = User.limit(1).order("RANDOM()").pluck(:id)[0]
-      item.event_id   = Event.limit(1).order("RANDOM()").pluck(:id)[0]
+      item.user_id    = rand(1..users_count)
+      item.event_id   = rand(1..events_count)
       item.delivery_method = delivery_method.sample
       item.sold       = boolean_val.sample
       item.pending    = boolean_val.sample
@@ -119,10 +126,10 @@ desc "Populate the Production Database"
     status_b = ["ordered", "paid", "completed", "cancelled"]
 
     Order.populate 45000 do |order| 
-        user = User.limit(1).order("RANDOM()")[0]
-        order.user_id = User.limit(1).order("RANDOM()").pluck(:id)[0]
+        users_count     = User.count
+        order.user_id = rand(1..users_count)
         order.status = status_b.sample
-        order.total_price = Faker::Commerce.price + 1
+        order.total_price = (Faker::Commerce.price * 1000)+ 1
     end
     puts "Order total for Primary Users: #{Order.count}"
   end
@@ -133,9 +140,12 @@ desc "Populate the Production Database"
     puts "Creating OrderItems for Primary Users..."
     OrderItem.populate 500 do |orderitem|
       puts "OrderItem count: #{counter}"
-      orderitem.item_id = rand(1..Item.count)
-      user_ids = User.limit(6).pluck(:id)
-      orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
+      
+      item_count = Item.count
+      user_ids = [1,2,3,4,5,6]
+      primary_user_order_ids = Order.where(user_id: user_ids).pluck(:id)
+      orderitem.item_id = rand(1..item_count)
+      orderitem.order_id = primary_user_order_ids.sample
       
       counter +=1
     end
@@ -147,10 +157,12 @@ desc "Populate the Production Database"
     puts "Creating OrderItems..."
     OrderItem.populate 20000 do |orderitem|
       puts "OrderItem count: #{counter}"
-      orderitem.item_id = rand(1..Item.count)
-      user_ids = rand(1..User.count)
-      orderitem.order_id = Order.where(user_id: user_ids).order("RANDOM()").limit(1).pluck(:id)[0]
-      
+
+      item_count  = Item.count
+      order_count = Order.count
+      orderitem.item_id = rand(1..item_count)
+      orderitem.order_id = rand(1..order_count)
+
       counter +=1
     end
     puts "OrderItem total: #{OrderItem.count}"
