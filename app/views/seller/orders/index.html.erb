@@ -18,7 +18,7 @@
         </th>
       </tr>
       <tr>
-      
+        <th>Order</th>
         <th>Status</th>
         <th>Number of Items</th>
         <th>Total Price</th>
@@ -28,7 +28,8 @@
     <tbody>
 <% @user.orders.each do |order| %>
       <tr>
-        <td class="vert-align"><%= order.status %></td>
+        <td> <%= link_to("#{order.id}", seller_order_path(@user.slug, order)) %></td>
+        <td class="vert-align"%><%= order.status %></td>
         <td class="vert-align"><%= order.items.count %></td>
         <td class="vert-align"><%= order.total_price %></td>
         <td class="vert-align"><%= order.created_at.strftime("%A, %B %d, %Y") %></td>

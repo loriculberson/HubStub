@@ -11,8 +11,7 @@ class OrdersController < ApplicationController
 
   def index
     if current_user
-      # @orders = Order.where(user_id: current_user.id)
-      @orders = Order..paginate(:page => params[:page], :per_page => 8).where(user_id: current_user.id)
+      @orders = Order.where(user_id: current_user.id)
     else
       redirect_to root_path
     end
