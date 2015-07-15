@@ -1,5 +1,5 @@
 <div class="seller-page-title">
-  <h1>Orders for <%=current_user.full_name%></h1>
+  <h1>Orders for <%=@user.full_name%></h1>
   <br />
 </div>
 <div class="row seller-events text-center event-page-inner">
@@ -9,9 +9,8 @@
     </thead>
   </table>
 
-<%#= @user.orders.each do |order| %>
-<% @orders.each do |order| %>
-<%= will_paginate %>
+<%= @user.orders.each do |order| %>
+
 <div class="row event-page-ticket-listing event-page-inner">
   <table class="table table-hover event-tickets">
     <thead>
