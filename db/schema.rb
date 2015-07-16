@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711220735) do
+ActiveRecord::Schema.define(version: 20150716044830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,8 @@ ActiveRecord::Schema.define(version: 20150711220735) do
     t.integer  "category_id"
     t.time     "start_time"
   end
-  
+
+  add_index "events", ["approved"], name: "index_events_on_approved", using: :btree
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
   add_index "events", ["image_id"], name: "index_events_on_image_id", using: :btree
   add_index "events", ["venue_id"], name: "index_events_on_venue_id", using: :btree
@@ -72,6 +73,7 @@ ActiveRecord::Schema.define(version: 20150711220735) do
   end
 
   add_index "items", ["event_id"], name: "index_items_on_event_id", using: :btree
+  add_index "items", ["pending"], name: "index_items_on_pending", using: :btree
   add_index "items", ["user_id"], name: "index_items_on_user_id", using: :btree
 
   create_table "order_items", force: :cascade do |t|
