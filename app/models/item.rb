@@ -10,11 +10,6 @@
 
   before_create :unit_price_converter
 
-  # has_attached_file :ticket
-  # validates_attachment :ticket,
-  #   content_type: { content_type: "application/pdf" }
-
-
   validates :unit_price, presence: true, allow_blank: false,
     numericality: { only_integer: true, greater_than: 0 }
   validates :section, presence: true
