@@ -33,10 +33,10 @@
       <td><%= item.section %></td>
       <td><%= item.row %></td>
       <td><%= item.seat %></td>
-      <td><%= item.delivery_method %> |
-        <% if item.delivery_method == 'electronic'  %>
-        <%= link_to "download", item.ticket %>
-        <% end %>
+      <td><%= item.delivery_method %> 
+        <%# if item.delivery_method == 'electronic'  %>
+        <%#= link_to "download", item.ticket %>
+        <%# end %>
         </td>
       <td><%= item.dollar_amount %></td>
     </tr>

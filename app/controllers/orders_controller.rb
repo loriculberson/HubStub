@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
     if current_user
       @order = Order.create(user: current_user)
       move_cart_items_to_order_items
-      send_confirmations
+      # send_confirmations
       flash[:success] = "Order confirmed! Please check your email!"
       redirect_to seller_order_path(current_user.slug, @order)
     else
@@ -39,11 +39,11 @@ class OrdersController < ApplicationController
     @cart.clear
   end
 
-  def send_confirmations
-    BuyerMailer.purchase_confirmation(@order).deliver_now
-    @order.sellers.each do |seller|
-      items = @order.items.where(user: seller)
-      SellerMailer.listing_sold_confirmation(seller, @order.user, items).deliver_now
-    end
-  end
+  # def send_confirmations
+  #   BuyerMailer.purchase_confirmation(@order).deliver_now
+  #   @order.sellers.each do |seller|
+  #     items = @order.items.where(user: seller)
+  #     SellerMailer.listing_sold_confirmation(seller, @order.user, items).deliver_now
+  #   end
+  # end
 end

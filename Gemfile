@@ -19,6 +19,9 @@ gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'jquery-datatables-rails', '~> 3.3.0'
 
+gem 'selenium-webdriver'
+gem "poltergeist"
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'google_timezone'
@@ -30,8 +33,8 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails'
-  gem 'capybara'
   gem 'launchy'
+  gem 'capybara'
   gem 'pry'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'database_cleaner', '~> 1.4.0'
