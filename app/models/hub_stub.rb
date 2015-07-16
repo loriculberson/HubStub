@@ -25,8 +25,8 @@ class HubStub
   end
 
   def visit_root
-    # session.visit 'https://selling-tickets.herokuapp.com'
-    session.visit 'http://localhost:3000'
+    session.visit 'https://selling-tickets.herokuapp.com'
+    # session.visit 'http://localhost:3000'
     puts 'Nice web page!'
   end
 
