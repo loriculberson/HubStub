@@ -4,7 +4,7 @@
   </div>
   <div class="event-page col-lg-8 col-lg-offset-2">
     <div class="row event-page-header event-page-inner">
-      <%= render partial: "shared/event_table" %>
+      <%= render partial: "shared/event_table", :locals => { :venue => @venue } %>
     </div>
   </div>
 </div>
