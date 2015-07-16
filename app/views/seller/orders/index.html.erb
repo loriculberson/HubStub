@@ -10,7 +10,8 @@
   </table>
 
 <div class="row event-page-ticket-listing event-page-inner">
-  <table class="table table-hover event-tickets datatable">
+  <table class="table table-hover event-tickets">
+  <%= will_paginate %>
     <thead>
       <tr id="seller-events">
         <th colspan=8 class="vert-align">
@@ -26,11 +27,11 @@
       </tr>
     </thead>
     <tbody>
-<% @user.orders.each do |order| %>
+<% @orders.each do |order| %>
       <tr>
         <td> <%= link_to("#{order.id}", seller_order_path(@user.slug, order)) %></td>
         <td class="vert-align"%><%= order.status %></td>
-        <td class="vert-align"><%= order.items.count %></td>
+        <td class="vert-align"><%= order.items.size %></td>
         <td class="vert-align"><%= order.total_price %></td>
         <td class="vert-align"><%= order.created_at.strftime("%A, %B %d, %Y") %></td>
       </tr>

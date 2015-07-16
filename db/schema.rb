@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20150711220735) do
     t.integer  "category_id"
     t.time     "start_time"
   end
-
+  
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
   add_index "events", ["image_id"], name: "index_events_on_image_id", using: :btree
   add_index "events", ["venue_id"], name: "index_events_on_venue_id", using: :btree

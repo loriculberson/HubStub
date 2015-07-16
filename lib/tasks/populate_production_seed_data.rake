@@ -77,7 +77,7 @@ desc "Populate the Production Database"
     puts "Items for specific users total: #{Item.count}"
   end
 
-  task :populate_items => :environment do  
+  task :populate_items do  
     puts "Creaing Items for Seeded Users...."
 
     delivery_method = ["electronic", "physical"] 
@@ -107,7 +107,7 @@ desc "Populate the Production Database"
     puts "Items for seeded users total: #{Item.count}"
   end
 
-  task :populate_orders_for_primary_users_DONE => :environment do  
+  task :populate_orders_for_primary_users do  
     puts "Creating Orders for Primary Users...."
 
     status = ["ordered", "paid", "completed", "cancelled"]
@@ -121,28 +121,29 @@ desc "Populate the Production Database"
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :populate_orders_DONE => :environment do  
+  task :populate_orders do  
     puts "Creating Orders for Seeded Users...."
 
     status_b = ["ordered", "paid", "completed", "cancelled"]
+    users_count     = User.count
 
     Order.populate 45000 do |order| 
-        users_count     = User.count
-        order.user_id = rand(1..users_count)
-        order.status = status_b.sample
-        order.total_price = (Faker::Commerce.price * 1000)+ 1
+      order.user_id = rand(1..users_count)
+      order.status = status_b.sample
+      order.total_price = (Faker::Commerce.price * 1000)+ 1
     end
     puts "Order total for Primary Users: #{Order.count}"
   end
 
-  task :order_item_primary_DONE => :environment do  
+  task :order_item_primary do  
 
     counter = 0
+    item_count = Item.count
+
     puts "Creating OrderItems for Primary Users..."
     OrderItem.populate 500 do |orderitem|
       puts "OrderItem count: #{counter}"
       
-      item_count = Item.count
       user_ids = [1,2,3,4,5,6]
       primary_user_order_ids = Order.where(user_id: user_ids).pluck(:id)
       orderitem.item_id = rand(1..item_count)
@@ -153,14 +154,14 @@ desc "Populate the Production Database"
     puts "OrderItem total for Primary Users: #{OrderItem.count}"
   end
 
-  task :order_item_DONE => :environment do  
+  task :order_item do  
     counter = 0
     puts "Creating OrderItems..."
-    OrderItem.populate 20000 do |orderitem|
-      puts "OrderItem count: #{counter}"
-
       item_count  = Item.count
       order_count = Order.count
+
+    OrderItem.populate 20000 do |orderitem|
+      puts "OrderItem count: #{counter}"
       orderitem.item_id = rand(1..item_count)
       orderitem.order_id = rand(1..order_count)
 
