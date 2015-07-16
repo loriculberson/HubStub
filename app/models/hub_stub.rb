@@ -7,21 +7,17 @@ class HubStub
     @session ||= Capybara::Session.new(:poltergeist)
   end
 
-  def eventids
-    Event.count
-  end
-
-  def run #start of the test
+  def run 
     loop do
       visit_root
       create_new_account
       click_adventure
       buy_ticket
       # click_buy_then_add_ticket_to_cart
-      logout
-      login
       sell_an_item
+      logout
     end
+      # login
   end
 
   def visit_root
@@ -46,6 +42,10 @@ class HubStub
     puts "Created account"
   end
 
+  def click_adventure
+    session.click_link("Adventure")
+  end
+
   def login
     session.click_link("Login")
     session.fill_in "session[email]", with: 'lori@example.com'
@@ -54,13 +54,9 @@ class HubStub
     puts "Login complete"
   end
 
-  def click_adventure
-    session.click_link("Adventure")
-  end
 
   def buy_ticket
-    # session.first(:button, 'Add to Cart').click
-    session.all(:css, "input.btn").sample.click
+    session.all(:css, "input.btn").first.click
     session.click_link("Cart(1)")
     session.click_link("Checkout")
     session.fill_in "session[email]", with: 'lori@example.com'
@@ -94,18 +90,4 @@ class HubStub
     session.click_on "List Ticket"
     puts "Sell an item"
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end
