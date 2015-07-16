@@ -1,6 +1,6 @@
 $(document).ready( function () {
   var table = $('.datatable').DataTable( {
-    "pagingType": "full_numbers"
+    // "pagingType": "full_numbers"
   });
 
 });

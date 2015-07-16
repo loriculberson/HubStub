@@ -7,15 +7,20 @@ class HubStub
     @session ||= Capybara::Session.new(:poltergeist)
   end
 
+  def eventids
+    Event.count
+  end
+
   def run #start of the test
     loop do
       visit_root
       create_new_account
       click_adventure
       buy_ticket
-      click_buy_then_add_ticket_to_cart
+      # click_buy_then_add_ticket_to_cart
       logout
       login
+      sell_an_item
     end
   end
 
@@ -68,19 +73,27 @@ class HubStub
   def click_buy_then_add_ticket_to_cart
     session.click_link 'Buy'
     session.click_link 'All Tickets'
-    session.all("tr.event-tickets").first.click 
+    session.all("tr.event-row").first.click 
     session.all(:css, "input.btn").sample.click
     puts "Add event ticket to cart"
   end
-
-
 
   def logout
     session.click_link("Logout")
     puts "Drop the mike!"
   end
 
-# def 
+  def sell_an_item
+    session.click_link 'Sell'
+    session.all(:css, "#item_event_id").sample.click
+    session.fill_in 'item[section]', with: "A"
+    session.fill_in 'item[row]', with: "A"
+    session.fill_in 'item[seat]', with: "A"
+    session.fill_in 'item[unit_price]', with: 100
+    session.select "Physical", from: 'item[delivery_method]'
+    session.click_on "List Ticket"
+    puts "Sell an item"
+  end
 
 
 
